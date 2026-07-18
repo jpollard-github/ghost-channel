@@ -54,7 +54,11 @@ Only use `dev:lan` on a network you trust; it binds the development server to al
 
 ## PWA and deployment
 
-The manifest supports standalone installation without forcing orientation. A versioned service worker caches only a minimal shell and uses network-first navigation fallback; live API responses are never added to its cache. This is a modest offline fallback, not a claim of complete offline operation.
+The manifest supports standalone installation without forcing orientation and provides 192×192 and 512×512 PNG icons plus a dedicated opaque 512×512 maskable icon for Android install surfaces. A versioned service worker caches only a minimal shell and uses network-first navigation fallback; live API responses are never added to its cache. This is a modest offline fallback, not a claim of complete offline operation.
+
+Install the deployed HTTPS URL from a Chromium-family browser such as Chrome, Samsung Internet, or Edge. On the Samsung tablet, rotate to landscape before or after launch; Ghost Channel intentionally does not force landscape globally because portrait tablets and phones remain supported. Physical-device installation and icon rendering still require validation on the target hardware.
+
+In an installed PWA, press and hold the transmission status in the upper-right corner for 1.2 seconds to open diagnostics without a keyboard or address bar. The existing `D` shortcut and `?diagnostics=1` URL remain available.
 
 The project builds for Vercel with no Vercel project or `.vercel` state required. No custom domain is needed for local or preview development.
 

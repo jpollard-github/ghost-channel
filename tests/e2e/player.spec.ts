@@ -265,6 +265,65 @@ test("player controls and keyboard work", async ({ page }) => {
 });
 
 for (const viewport of [
+  { name: "narrow", width: 390, height: 844 },
+  { name: "tablet landscape", width: 1280, height: 800 },
+]) {
+  test(`status hold opens diagnostics in installed mode at ${viewport.name}`, async ({
+    page,
+  }) => {
+    await page.setViewportSize(viewport);
+    await page.addInitScript(() => {
+      const nativeMatchMedia = window.matchMedia.bind(window);
+      window.matchMedia = (query) => {
+        const result = nativeMatchMedia(query);
+        if (query === "(display-mode: standalone)") {
+          Object.defineProperty(result, "matches", { value: true });
+        }
+        return result;
+      };
+    });
+    await mock(page);
+    await page.goto("/");
+
+    const status = page.getByRole("button", {
+      name: "Transmission status. Press and hold to open diagnostics.",
+    });
+    await expect(status).toBeVisible();
+    const hitTarget = await status.boundingBox();
+    expect(hitTarget?.width).toBeGreaterThanOrEqual(44);
+    expect(hitTarget?.height).toBeGreaterThanOrEqual(44);
+
+    await status.dispatchEvent("pointerdown", {
+      pointerId: 1,
+      pointerType: "touch",
+      isPrimary: true,
+      button: 0,
+    });
+    const diagnostics = page.getByRole("complementary", {
+      name: "Diagnostics",
+    });
+    await expect(diagnostics).toBeVisible({ timeout: 2500 });
+    await status.dispatchEvent("pointerup", {
+      pointerId: 1,
+      pointerType: "touch",
+      isPrimary: true,
+      button: 0,
+    });
+    await expect(diagnostics.getByText("Standalone", { exact: true })).toBeVisible();
+    await expect(
+      diagnostics.getByText(/press and hold the transmission status for 1\.2 seconds/),
+    ).toBeVisible();
+    expect(
+      await page.evaluate(
+        () =>
+          document.documentElement.scrollWidth ===
+          document.documentElement.clientWidth,
+      ),
+    ).toBe(true);
+  });
+}
+
+for (const viewport of [
   { width: 1280, height: 800 },
   { width: 1440, height: 900 },
   { width: 390, height: 844 },
@@ -295,7 +354,39 @@ test("query diagnostics, reduced motion, manifest and service worker resources",
   ).toBeVisible();
   const manifest = await page.request.get("/manifest.webmanifest");
   expect(manifest.ok()).toBe(true);
-  expect((await manifest.json()).display).toBe("standalone");
+  const manifestBody = await manifest.json();
+  expect(manifestBody.display).toBe("standalone");
+  expect(manifestBody.icons).toEqual(
+    expect.arrayContaining([
+      expect.objectContaining({
+        src: "/icons/icon-192.png",
+        sizes: "192x192",
+        type: "image/png",
+        purpose: "any",
+      }),
+      expect.objectContaining({
+        src: "/icons/icon-512.png",
+        sizes: "512x512",
+        type: "image/png",
+        purpose: "any",
+      }),
+      expect.objectContaining({
+        src: "/icons/icon-maskable-512.png",
+        sizes: "512x512",
+        type: "image/png",
+        purpose: "maskable",
+      }),
+    ]),
+  );
+  for (const iconPath of [
+    "/icons/icon-192.png",
+    "/icons/icon-512.png",
+    "/icons/icon-maskable-512.png",
+  ]) {
+    const icon = await page.request.get(iconPath);
+    expect(icon.ok()).toBe(true);
+    expect(icon.headers()["content-type"]).toContain("image/png");
+  }
   const sw = await page.request.get("/sw.js");
   expect(sw.ok()).toBe(true);
   expect(sw.headers()["service-worker-allowed"]).toBe("/");

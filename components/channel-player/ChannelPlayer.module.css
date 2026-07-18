@@ -104,9 +104,26 @@
   position: absolute;
   top: max(18px, env(safe-area-inset-top));
   right: max(24px, env(safe-area-inset-right));
+  display: grid;
+  min-width: 44px;
+  min-height: 44px;
+  place-items: start end;
+  border: 0;
+  background: transparent;
+  padding: 0;
   color: var(--muted);
   font: 11px/1 var(--font-mono);
   letter-spacing: 0.08em;
+  cursor: default;
+  touch-action: manipulation;
+  user-select: none;
+  -webkit-user-select: none;
+  -webkit-touch-callout: none;
+}
+.status:focus-visible {
+  border-radius: 6px;
+  outline: 1px solid var(--accent);
+  outline-offset: 3px;
 }
 @media (max-width: 720px) {
   .player {

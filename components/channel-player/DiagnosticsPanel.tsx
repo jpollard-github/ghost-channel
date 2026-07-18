@@ -52,6 +52,9 @@ export function DiagnosticsPanel({
         </tbody>
       </table>
       <p className={styles.detail}>
+        Open diagnostics: press and hold the transmission status for 1.2 seconds,
+        press D on a keyboard, or use ?diagnostics=1.
+        <br />
         Cache: {cacheState}
         <br />
         Last refresh attempt: {lastRefreshAttempt ?? "not yet"}

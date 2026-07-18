@@ -37,13 +37,15 @@
 - [x] Add manifest, original icon, and minimal versioned shell service worker
 - [x] Add configurable desktop, tablet, and iPhone responsive screenshot review
 - [x] Add diagnostics device metrics and copyable local review profile
-- [ ] Generate and test PNG icon sizes across install surfaces
+- [x] Add a touch-accessible diagnostics gesture for installed displays
+- [x] Generate and automate resource checks for 192px, 512px, and maskable PNG icons
+- [ ] Validate installed icon and splash rendering across physical install surfaces
 - [ ] Test wake lock, long-running memory use, and install flows on tablet hardware
 - [ ] Replace provisional tablet and iPhone dimensions with physical browser and standalone measurements
 
 ## Deployment and domain — deferred
 
-- [ ] Create a Vercel project and preview deployment only when explicitly requested
+- [x] Create a Vercel project and preview deployment only when explicitly requested
 - [ ] Choose and configure a domain only after preview validation
 
 ## Ideas parking lot

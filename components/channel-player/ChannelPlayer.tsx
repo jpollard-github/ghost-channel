@@ -1,5 +1,12 @@
 "use client";
-import { useCallback, useEffect, useMemo, useRef, useState } from "react";
+import {
+  type PointerEvent as ReactPointerEvent,
+  useCallback,
+  useEffect,
+  useMemo,
+  useRef,
+  useState,
+} from "react";
 import { useSearchParams } from "next/navigation";
 import { buildPlaylist } from "@/lib/scheduler/build-playlist";
 import { cacheBundle, readCachedBundle } from "@/lib/cache/client-signal-cache";
@@ -17,6 +24,7 @@ import { SignalStage } from "./SignalStage";
 import styles from "./ChannelPlayer.module.css";
 
 class RefreshError extends Error {}
+const DIAGNOSTICS_HOLD_MS = 1200;
 
 function relativeTime(iso: string) {
   const minutes = Math.max(
@@ -45,6 +53,7 @@ export function ChannelPlayer({ fallback }: { fallback: SignalBundle }) {
     searchParams.get("diagnostics") === "1",
   );
   const [decisions, setDecisions] = useState<string[]>([]);
+  const diagnosticsHoldTimer = useRef<number | null>(null);
   const playlist = useMemo(
     () => buildPlaylist(bundle.signals, bundle.generatedAt.slice(0, 10)),
     [bundle],
@@ -64,6 +73,27 @@ export function ChannelPlayer({ fallback }: { fallback: SignalBundle }) {
     },
     [playlist.length],
   );
+  const cancelDiagnosticsHold = useCallback(() => {
+    if (diagnosticsHoldTimer.current === null) return;
+    window.clearTimeout(diagnosticsHoldTimer.current);
+    diagnosticsHoldTimer.current = null;
+  }, []);
+  const openDiagnostics = useCallback((reason: string) => {
+    setDiagnostics(true);
+    setDecisions((items) => [...items.slice(-8), reason]);
+  }, []);
+  const startDiagnosticsHold = useCallback(
+    (event: ReactPointerEvent<HTMLButtonElement>) => {
+      if (!event.isPrimary || event.button !== 0) return;
+      cancelDiagnosticsHold();
+      diagnosticsHoldTimer.current = window.setTimeout(() => {
+        diagnosticsHoldTimer.current = null;
+        openDiagnostics("status hold diagnostics");
+      }, DIAGNOSTICS_HOLD_MS);
+    },
+    [cancelDiagnosticsHold, openDiagnostics],
+  );
+  useEffect(() => cancelDiagnosticsHold, [cancelDiagnosticsHold]);
   useEffect(() => {
     let active = true;
     let inFlight = false;
@@ -246,9 +276,22 @@ export function ChannelPlayer({ fallback }: { fallback: SignalBundle }) {
   return (
     <main className={styles.player}>
       <ServiceWorkerRegistration />
-      <span className={styles.status}>
+      <button
+        className={styles.status}
+        type="button"
+        aria-label="Transmission status. Press and hold to open diagnostics."
+        title="Press and hold to open diagnostics"
+        onPointerDown={startDiagnosticsHold}
+        onPointerUp={cancelDiagnosticsHold}
+        onPointerCancel={cancelDiagnosticsHold}
+        onPointerLeave={cancelDiagnosticsHold}
+        onContextMenu={(event) => event.preventDefault()}
+        onClick={(event) => {
+          if (event.detail === 0) openDiagnostics("status keyboard diagnostics");
+        }}
+      >
         {paused ? "TRANSMISSION PAUSED" : "RECEIVING"}
-      </span>
+      </button>
       <SignalStage signal={signal} />
       <footer className={styles.footer}>
         <div className={styles.meta}>
