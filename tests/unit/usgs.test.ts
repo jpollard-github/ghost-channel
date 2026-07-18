@@ -1,0 +1,4 @@
+import test from "node:test"; import assert from "node:assert/strict"; import { readFile } from "node:fs/promises";
+import { loadUsgs, normalizeUsgs } from "../../lib/adapters/usgs";
+test("USGS normalizer preserves useful metadata neutrally", async () => { const payload: unknown = JSON.parse(await readFile("tests/fixtures/usgs.json", "utf8")); const signals = normalizeUsgs(payload, new Date("2026-07-18T12:00:00Z")); assert.equal(signals[0].id, "usgs-alpha"); assert.match(signals[0].body ?? "", /Green alert/); assert.match(signals[0].sourceUrl ?? "", /usgs/); });
+test("USGS failures are not empty successes", async () => { const result = await loadUsgs((async () => new Response("no", { status: 503 })) as typeof fetch); assert.equal(result.status, "failed"); assert.equal(result.signals.length, 0); });

@@ -1,0 +1,5 @@
+import test from "node:test"; import assert from "node:assert/strict";
+import { buildPlaylist } from "../../lib/scheduler/build-playlist"; import type { Signal } from "../../lib/signals/types";
+const make = (id: string, channelId: string, priority = 5): Signal => ({ id, channelId, sourceId: channelId, label: id, title: id, fetchedAt: "2026-07-18T12:00:00.000Z", priority, dwellMs: 5000 });
+test("scheduler handles empty, one, deduplication and determinism", () => { assert.deepEqual(buildPlaylist([]), []); assert.equal(buildPlaylist([make("a", "x")]).length, 1); const input = [make("a", "x", 9), make("a", "x", 9), make("b", "x"), make("c", "y"), make("d", "z")]; assert.deepEqual(buildPlaylist(input, "seed"), buildPlaylist(input, "seed")); assert.equal(buildPlaylist(input).length, 4); });
+test("scheduler avoids adjacent channels when alternatives exist", () => { const result = buildPlaylist([make("a", "x", 9), make("b", "x", 8), make("c", "y", 7), make("d", "z", 6)]); assert.notEqual(result[0].channelId, result[1].channelId); assert.notEqual(result[1].channelId, result[2].channelId); });

@@ -1,0 +1,42 @@
+{
+  "name": "ghost-channel",
+  "version": "0.1.0",
+  "private": true,
+  "engines": { "node": "24.16.0" },
+  "scripts": {
+    "dev": "next dev",
+    "build": "next build",
+    "start": "next start",
+    "lint": "eslint .",
+    "typecheck": "tsc --noEmit",
+    "test:unit": "node --import tsx --test tests/unit/*.test.ts tests/review/*.test.ts",
+    "test:e2e": "playwright test",
+    "test:e2e:ci": "playwright test",
+    "verify:fast": "npm run lint && npm run typecheck",
+    "verify": "npm run verify:fast && npm run test:unit",
+    "verify:full": "npm run verify && npm run build",
+    "review:mark": "node --import tsx scripts/mark-review-baseline.ts",
+    "review:change": "node --import tsx scripts/zip-change-review.ts",
+    "review:repo": "node --import tsx scripts/zip-repo-review.ts"
+  },
+  "dependencies": {
+    "next": "16.2.10",
+    "react": "19.2.4",
+    "react-dom": "19.2.4",
+    "zod": "4.3.6"
+  },
+  "devDependencies": {
+    "@playwright/test": "1.58.2",
+    "@types/node": "24.10.13",
+    "@types/react": "19.2.10",
+    "@types/react-dom": "19.2.3",
+    "eslint": "9.39.2",
+    "eslint-config-next": "16.2.10",
+    "tsx": "4.21.0",
+    "typescript": "5.9.3"
+  },
+  "overrides": {
+    "esbuild": "0.28.1",
+    "postcss": "8.5.10"
+  }
+}

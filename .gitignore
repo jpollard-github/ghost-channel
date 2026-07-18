@@ -1,0 +1,17 @@
+*.DS_Store
+node_modules/
+.next/
+out/
+dist/
+.env*
+!.env.example
+*.log
+*.tsbuildinfo
+.vercel/
+playwright-report/
+test-results/
+coverage/
+repo-reviews/
+review-artifacts/
+.review-baseline.json
+.review-packet-*/

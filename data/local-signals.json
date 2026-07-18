@@ -1,0 +1,27 @@
+[
+  {
+    "id": "local-slow-signal",
+    "channelId": "personal",
+    "sourceId": "local",
+    "label": "Field note",
+    "title": "Leave room for the signal to arrive.",
+    "body": "A quiet interval can be part of the broadcast, not an absence from it.",
+    "media": {
+      "kind": "procedural",
+      "renderer": "quiet-grid",
+      "seed": "slow-signal"
+    },
+    "priority": 7,
+    "dwellMs": 11000
+  },
+  {
+    "id": "local-night-window",
+    "channelId": "personal",
+    "sourceId": "local",
+    "label": "Local frequency",
+    "title": "The night window is open.",
+    "body": "Ghost Channel is receiving its first repository-backed transmission.",
+    "priority": 6,
+    "dwellMs": 9000
+  }
+]

@@ -1,0 +1,3 @@
+import test from "node:test"; import assert from "node:assert/strict"; import { mkdtempSync, writeFileSync } from "node:fs"; import { tmpdir } from "node:os"; import path from "node:path"; import { execFileSync } from "node:child_process";
+import { changedPaths, currentHead, EMPTY_TREE } from "../../scripts/review-utils";
+test("unborn fixture uses empty tree and includes untracked files", () => { const cwd = mkdtempSync(path.join(tmpdir(), "ghost-review-test-")); execFileSync("git", ["init", "-q"], { cwd }); writeFileSync(path.join(cwd, "new.txt"), "new\n"); assert.equal(currentHead(cwd), EMPTY_TREE); assert.deepEqual(changedPaths(EMPTY_TREE, cwd), ["new.txt"]); });

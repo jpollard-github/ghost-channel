@@ -1,0 +1,5 @@
+.panel { position: fixed; z-index: 20; inset: 18px 18px auto auto; width: min(440px, calc(100vw - 36px)); max-height: calc(100svh - 36px); overflow: auto; padding: 22px; border: 1px solid var(--line); border-radius: 14px; background: rgba(8,12,14,.96); box-shadow: 0 20px 70px #0009; }
+.panel h2 { margin: 0 0 18px; font-size: 19px; }
+.panel table { width: 100%; border-collapse: collapse; font: 11px/1.45 var(--font-mono); }
+.panel th, .panel td { padding: 7px 4px; border-bottom: 1px solid var(--line); text-align: left; vertical-align: top; }
+.detail { margin: 14px 0 0; color: var(--muted); font: 11px/1.55 var(--font-mono); overflow-wrap: anywhere; }
