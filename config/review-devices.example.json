@@ -28,15 +28,5 @@
     "hasTouch": true,
     "provisional": true,
     "measurementNote": "Replace with physical iPhone 17 Pro Max portrait measurements."
-  },
-  "iphone17ProMaxLandscape": {
-    "browser": "webkit",
-    "viewport": { "width": 956, "height": 440 },
-    "screen": { "width": 956, "height": 440 },
-    "deviceScaleFactor": 3,
-    "isMobile": true,
-    "hasTouch": true,
-    "provisional": true,
-    "measurementNote": "Replace with physical iPhone 17 Pro Max landscape measurements."
   }
 }

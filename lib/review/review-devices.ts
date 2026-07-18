@@ -22,8 +22,7 @@ export const reviewDevicesSchema = z.object({
   desktop: reviewDeviceSchema,
   tabletLandscape: reviewDeviceSchema,
   iphone17ProMaxPortrait: reviewDeviceSchema,
-  iphone17ProMaxLandscape: reviewDeviceSchema,
-});
+}).strict();
 
 export type ReviewDevice = z.infer<typeof reviewDeviceSchema>;
 export type ReviewDevices = z.infer<typeof reviewDevicesSchema>;
@@ -32,7 +31,6 @@ export const REVIEW_PROJECT_NAMES: Record<keyof ReviewDevices, string> = {
   desktop: "desktop",
   tabletLandscape: "tablet-landscape",
   iphone17ProMaxPortrait: "iphone-17-pro-max-portrait",
-  iphone17ProMaxLandscape: "iphone-17-pro-max-landscape",
 };
 
 export function loadReviewDevices(root = process.cwd()): ReviewDevices {

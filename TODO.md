@@ -41,7 +41,8 @@
 - [x] Generate and automate resource checks for 192px, 512px, and maskable PNG icons
 - [ ] Validate installed icon and splash rendering across physical install surfaces
 - [ ] Test wake lock, long-running memory use, and install flows on tablet hardware
-- [ ] Replace provisional tablet and iPhone dimensions with physical browser and standalone measurements
+- [x] Record local physical tablet-landscape and iPhone-portrait standalone measurements
+- [ ] Record additional browser-mode measurements when useful
 
 ## Deployment and domain — deferred
 
