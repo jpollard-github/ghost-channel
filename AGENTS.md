@@ -10,5 +10,7 @@ Read `README.md`, `TODO.md`, and `docs/architecture.md` before changing behavior
 - Never commit secrets, `.env.local`, generated review archives, or review artifacts.
 - Prefer platform features and minimal dependencies.
 - Keep keyboard and screen-reader access, reduced motion, safe areas, 1280×800 and 1440×900 landscape, and 390×844 mobile in scope. Never autoplay audio.
+- Keep ordinary E2E fast. Put multi-device screenshot assertions in the responsive review configuration, use deterministic mocked source data, and visually inspect every generated PNG.
+- Treat `config/review-devices.local.json` and generated screenshot/review artifacts as local, ignored files that must never be committed.
 
 Verification ladder: `npm run verify:fast`, `npm run verify`, `npm run verify:full`, then `npm run test:e2e` for browser-impacting work. Never claim an unrun check passed. Generated review artifacts must never be committed.

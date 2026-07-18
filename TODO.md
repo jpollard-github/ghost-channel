@@ -35,8 +35,11 @@
 ## PWA and physical-device testing
 
 - [x] Add manifest, original icon, and minimal versioned shell service worker
+- [x] Add configurable desktop, tablet, and iPhone responsive screenshot review
+- [x] Add diagnostics device metrics and copyable local review profile
 - [ ] Generate and test PNG icon sizes across install surfaces
 - [ ] Test wake lock, long-running memory use, and install flows on tablet hardware
+- [ ] Replace provisional tablet and iPhone dimensions with physical browser and standalone measurements
 
 ## Deployment and domain — deferred
 

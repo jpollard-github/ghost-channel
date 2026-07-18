@@ -1,0 +1,42 @@
+{
+  "desktop": {
+    "browser": "chromium",
+    "viewport": { "width": 1440, "height": 900 },
+    "screen": { "width": 1440, "height": 900 },
+    "deviceScaleFactor": 1,
+    "isMobile": false,
+    "hasTouch": false,
+    "provisional": false,
+    "measurementNote": "Desktop Chrome review target."
+  },
+  "tabletLandscape": {
+    "browser": "chromium",
+    "viewport": { "width": 1280, "height": 800 },
+    "screen": { "width": 1280, "height": 800 },
+    "deviceScaleFactor": 1.5,
+    "isMobile": true,
+    "hasTouch": true,
+    "provisional": true,
+    "measurementNote": "Replace with physical Android tablet landscape measurements."
+  },
+  "iphone17ProMaxPortrait": {
+    "browser": "webkit",
+    "viewport": { "width": 440, "height": 956 },
+    "screen": { "width": 440, "height": 956 },
+    "deviceScaleFactor": 3,
+    "isMobile": true,
+    "hasTouch": true,
+    "provisional": true,
+    "measurementNote": "Replace with physical iPhone 17 Pro Max portrait measurements."
+  },
+  "iphone17ProMaxLandscape": {
+    "browser": "webkit",
+    "viewport": { "width": 956, "height": 440 },
+    "screen": { "width": 956, "height": 440 },
+    "deviceScaleFactor": 3,
+    "isMobile": true,
+    "hasTouch": true,
+    "provisional": true,
+    "measurementNote": "Replace with physical iPhone 17 Pro Max landscape measurements."
+  }
+}

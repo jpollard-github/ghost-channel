@@ -33,6 +33,25 @@ On initial load, the client validates the complete server bundle before replacin
 
 Commands: `npm run lint`, `npm run typecheck`, `npm run test:unit`, `npm run test:e2e`, `npm run verify`, and `npm run verify:full`. Browser tests intercept `/api/signals`; unit tests use fixtures and do not call NWS or USGS.
 
+### Responsive device review
+
+`npm run test:e2e` is the fast behavioral Chromium suite. `npm run test:responsive` uses the separate `playwright.review.config.ts` and deterministic mocked local, NWS, and USGS signals to assert four focused device layouts; it is not evidence that the live NWS or USGS APIs work. `npm run review:screenshots` replaces only `review-artifacts/screenshots/current`, runs that responsive suite, writes its manifest, and creates a timestamped screenshot ZIP. `npm run review:change` packages work since the marked baseline with the latest current screenshots, while `npm run review:repo` packages the repository.
+
+The tracked `config/review-devices.example.json` provides desktop Chrome at 1440×900, a provisional Android tablet landscape target at 1280×800 and DPR 1.5, and provisional iPhone 17 Pro Max portrait/landscape targets at 440×956 and 956×440 with DPR 3. Copy it to the ignored `config/review-devices.local.json` to adjust measurements in one place. The iPhone projects use the closest available Playwright iPhone/WebKit descriptor with explicit viewport, screen, and scale overrides. This is browser emulation, not a substitute for testing physical Safari or installed-PWA behavior.
+
+Install the additional review browser once with `npm run playwright:install:review`.
+
+### Measure a physical device over the LAN
+
+1. Connect the Mac and tablet or iPhone to the same trusted local network.
+2. Run `npm run dev:lan` and note the Network URL printed by Next.js.
+3. Open `<Network URL>/?diagnostics=1` on the physical device and rotate it to the target orientation.
+4. Measure once in the ordinary browser and once after installing/opening the PWA in standalone mode.
+5. Use **Copy device profile** in diagnostics, then adapt the matching entry in `config/review-devices.local.json` and retain a note identifying browser or standalone mode.
+6. Run `npm run review:screenshots` again and inspect every current PNG.
+
+Only use `dev:lan` on a network you trust; it binds the development server to all local interfaces.
+
 ## PWA and deployment
 
 The manifest supports standalone installation without forcing orientation. A versioned service worker caches only a minimal shell and uses network-first navigation fallback; live API responses are never added to its cache. This is a modest offline fallback, not a claim of complete offline operation.

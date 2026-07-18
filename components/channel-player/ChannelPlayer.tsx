@@ -298,6 +298,7 @@ export function ChannelPlayer({ fallback }: { fallback: SignalBundle }) {
           nextScheduledRefresh={nextRefresh}
           lastRefreshError={lastRefreshError}
           decisions={decisions}
+          onClose={() => setDiagnostics(false)}
         />
       ) : null}
     </main>

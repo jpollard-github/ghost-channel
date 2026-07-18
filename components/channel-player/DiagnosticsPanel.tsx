@@ -1,4 +1,5 @@
 import type { SignalBundle } from "@/lib/signals/types";
+import { DeviceMetrics } from "./DeviceMetrics";
 import styles from "./DiagnosticsPanel.module.css";
 
 type DiagnosticsPanelProps = {
@@ -10,6 +11,7 @@ type DiagnosticsPanelProps = {
   nextScheduledRefresh: string | null;
   lastRefreshError: string | null;
   decisions: string[];
+  onClose: () => void;
 };
 
 export function DiagnosticsPanel({
@@ -21,10 +23,14 @@ export function DiagnosticsPanel({
   nextScheduledRefresh,
   lastRefreshError,
   decisions,
+  onClose,
 }: DiagnosticsPanelProps) {
   return (
-    <aside className={styles.panel} aria-label="Diagnostics">
-      <h2>Signal diagnostics</h2>
+    <aside className={styles.panel} aria-label="Diagnostics" data-testid="diagnostics-panel">
+      <header className={styles.header}>
+        <h2>Signal diagnostics</h2>
+        <button className={styles.close} type="button" onClick={onClose} aria-label="Close diagnostics">Close</button>
+      </header>
       <table>
         <thead>
           <tr>
@@ -62,6 +68,7 @@ export function DiagnosticsPanel({
         <br />
         Decisions: {decisions.slice(-5).join(" · ") || "initial"}
       </p>
+      <DeviceMetrics />
     </aside>
   );
 }

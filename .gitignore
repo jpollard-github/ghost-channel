@@ -15,3 +15,4 @@ repo-reviews/
 review-artifacts/
 .review-baseline.json
 .review-packet-*/
+config/review-devices.local.json

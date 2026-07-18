@@ -102,13 +102,17 @@ test("scheduled, online, and stale-visible refreshes preserve the current signal
   });
   await page.goto("/?diagnostics=1");
   await expect(page.getByText("Cache: fresh server bundle")).toBeVisible();
-  await page.getByRole("button", { name: "Next", exact: true }).click();
+  await page
+    .getByRole("button", { name: "Next", exact: true })
+    .dispatchEvent("click");
   await expect(
     page.getByRole("heading", { name: "Second transmission" }),
   ).toBeVisible();
-  await page.getByRole("button", { name: "Pause", exact: true }).click();
+  await page
+    .getByRole("button", { name: "Pause", exact: true })
+    .dispatchEvent("click");
 
-  await page.clock.fastForward(SIGNAL_REFRESH_INTERVAL_MS);
+  await page.clock.runFor(SIGNAL_REFRESH_INTERVAL_MS);
   await expect.poll(() => requests).toBe(2);
   await expect(
     page.getByRole("heading", { name: "Second transmission" }),
@@ -117,7 +121,7 @@ test("scheduled, online, and stale-visible refreshes preserve the current signal
   await page.evaluate(() => window.dispatchEvent(new Event("online")));
   await expect.poll(() => requests).toBe(3);
 
-  await page.clock.fastForward(VISIBLE_REFRESH_STALE_MS);
+  await page.clock.runFor(VISIBLE_REFRESH_STALE_MS);
   await page.evaluate(() => {
     Object.defineProperty(document, "visibilityState", {
       configurable: true,
@@ -151,7 +155,7 @@ test("refresh triggers do not overlap an in-flight request", async ({ page }) =>
     window.dispatchEvent(new Event("online"));
     document.dispatchEvent(new Event("visibilitychange"));
   });
-  await page.clock.fastForward(SIGNAL_REFRESH_INTERVAL_MS);
+  await page.clock.runFor(SIGNAL_REFRESH_INTERVAL_MS);
   expect(requests).toBe(1);
 
   release?.();
@@ -171,9 +175,11 @@ test("scheduled refresh failure keeps the last valid bundle", async ({
   });
   await page.goto("/?diagnostics=1");
   await expect(page.getByText("Cache: fresh server bundle")).toBeVisible();
-  await page.getByRole("button", { name: "Pause", exact: true }).click();
+  await page
+    .getByRole("button", { name: "Pause", exact: true })
+    .dispatchEvent("click");
 
-  await page.clock.fastForward(SIGNAL_REFRESH_INTERVAL_MS);
+  await page.clock.runFor(SIGNAL_REFRESH_INTERVAL_MS);
   await expect.poll(() => requests).toBe(2);
   await expect(
     page.getByRole("heading", { name: "First transmission" }),

@@ -148,3 +148,37 @@
     right: 18px;
   }
 }
+@media (max-height: 520px) and (orientation: landscape) {
+  .player {
+    height: 100svh;
+    min-height: 0;
+    padding: max(14px, env(safe-area-inset-top))
+      max(20px, env(safe-area-inset-right))
+      max(12px, env(safe-area-inset-bottom))
+      max(20px, env(safe-area-inset-left));
+  }
+  .stage {
+    grid-template-columns: minmax(0, 1.25fr) minmax(220px, 0.75fr);
+    gap: clamp(24px, 5vw, 58px);
+  }
+  .title {
+    margin: 12px 0 10px;
+    font-size: clamp(34px, 5vw, 58px);
+  }
+  .body {
+    font-size: 15px;
+    line-height: 1.4;
+  }
+  .visual {
+    width: min(30vw, 260px);
+    justify-self: end;
+  }
+  .footer {
+    align-items: center;
+    padding-top: 10px;
+  }
+  .status {
+    top: max(10px, env(safe-area-inset-top));
+    right: max(20px, env(safe-area-inset-right));
+  }
+}

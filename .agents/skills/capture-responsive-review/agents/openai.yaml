@@ -1,0 +1,4 @@
+interface:
+  display_name: "Capture Responsive Review"
+  short_description: "Capture and inspect responsive review screenshots"
+  default_prompt: "Use $capture-responsive-review to capture and inspect Ghost Channel device screenshots."
