@@ -10,7 +10,7 @@ Supported targets are 1280×800 landscape tablets, 1440×900 desktops, and a ref
 
 ## Architecture
 
-Next.js 16.2.10 App Router, React 19.2.4, strict TypeScript 5.9.3, CSS Modules, and a small global token layer form the application. Zod 4.3.6 validates external and cached data. The same-origin `/api/signals` boundary loads independent adapters in parallel; local JSON always participates, while NWS and USGS report explicit failure health. UI components receive only normalized `Signal`, `SourceResult`, and `SignalBundle` values. A pure scheduler deduplicates and interleaves channels. The browser retains the last non-empty valid bundle in IndexedDB.
+Next.js 16.2.10 App Router, React 19.2.4, strict TypeScript 5.9.3, CSS Modules, and a small global token layer form the application. Zod 4.3.6 validates external and cached data. The same-origin `/api/signals` boundary loads independent adapters in parallel; local JSON always participates, while NWS and USGS report explicit failure health. UI components receive only normalized `Signal`, `SourceResult`, and `SignalBundle` values with canonical UTC timestamps. A pure scheduler deduplicates and interleaves channels. The browser retains the last non-empty valid bundle in IndexedDB.
 
 Initial channels are Personal (original repository-backed local notes), Local atmosphere (NWS forecast when configured), and World pulse (recent USGS earthquakes). NASA APOD is deferred.
 
@@ -26,6 +26,8 @@ npm run dev
 ```
 
 Configure `GHOST_CHANNEL_LOCATION_LABEL`, `GHOST_CHANNEL_LATITUDE`, `GHOST_CHANNEL_LONGITUDE`, and a descriptive `GHOST_CHANNEL_NWS_USER_AGENT`. Without them, weather reports `failed` in diagnostics while local and USGS signals continue.
+
+On initial load, the client validates the complete server bundle before replacing the server-rendered local fallback. Diagnostics separately report the last server refresh error and IndexedDB cache availability, while the normal player remains free of implementation error details.
 
 Commands: `npm run lint`, `npm run typecheck`, `npm run test:unit`, `npm run test:e2e`, `npm run verify`, and `npm run verify:full`. Browser tests intercept `/api/signals`; unit tests use fixtures and do not call NWS or USGS.
 

@@ -46,7 +46,7 @@ export function normalizeNwsForecast(
       sourceUrl: "https://www.weather.gov/",
       attribution: "National Weather Service",
       fetchedAt: now.toISOString(),
-      expiresAt: period.endTime,
+      expiresAt: new Date(period.endTime).toISOString(),
       priority: 8,
       dwellMs: 12000,
     }));

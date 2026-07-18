@@ -17,6 +17,7 @@
 
 - [x] Cache the last non-empty bundle in IndexedDB
 - [x] Provide explicit source health and local fallback
+- [x] Validate canonical live bundles and expose initial refresh/cache failures in diagnostics
 - [ ] Exercise offline and recovery transitions on physical devices
 
 ## Visual system
