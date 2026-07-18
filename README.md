@@ -27,7 +27,9 @@ npm run dev
 
 Configure `GHOST_CHANNEL_LOCATION_LABEL`, `GHOST_CHANNEL_LATITUDE`, `GHOST_CHANNEL_LONGITUDE`, and a descriptive `GHOST_CHANNEL_NWS_USER_AGENT`. Without them, weather reports `failed` in diagnostics while local and USGS signals continue.
 
-On initial load, the client validates the complete server bundle before replacing the server-rendered local fallback. Diagnostics separately report the last server refresh error and IndexedDB cache availability, while the normal player remains free of implementation error details.
+On initial load, the client validates the complete server bundle before replacing the server-rendered local fallback. It refreshes again ten minutes after each completed attempt, when the browser returns online, and when a visible document has gone at least five minutes without a successful refresh. Requests never overlap. A playlist update preserves the current stable signal ID when that signal remains eligible, and a failed refresh keeps the last valid non-expired bundle on screen.
+
+`expiresAt` is the exclusive playback eligibility boundary for a signal. At or after that UTC timestamp, the signal is removed from aggregate and per-source playlists during the next acceptance or refresh attempt; source health remains visible. Diagnostics separately report the last attempt, last success, next scheduled refresh, latest error, and IndexedDB cache availability, while the normal player remains free of implementation details.
 
 Commands: `npm run lint`, `npm run typecheck`, `npm run test:unit`, `npm run test:e2e`, `npm run verify`, and `npm run verify:full`. Browser tests intercept `/api/signals`; unit tests use fixtures and do not call NWS or USGS.
 

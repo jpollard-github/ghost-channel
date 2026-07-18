@@ -5,6 +5,9 @@ type DiagnosticsPanelProps = {
   bundle: SignalBundle;
   currentId: string;
   cacheState: string;
+  lastRefreshAttempt: string | null;
+  lastSuccessfulRefresh: string | null;
+  nextScheduledRefresh: string | null;
   lastRefreshError: string | null;
   decisions: string[];
 };
@@ -13,6 +16,9 @@ export function DiagnosticsPanel({
   bundle,
   currentId,
   cacheState,
+  lastRefreshAttempt,
+  lastSuccessfulRefresh,
+  nextScheduledRefresh,
   lastRefreshError,
   decisions,
 }: DiagnosticsPanelProps) {
@@ -42,7 +48,13 @@ export function DiagnosticsPanel({
       <p className={styles.detail}>
         Cache: {cacheState}
         <br />
-        Last refresh error: {lastRefreshError ?? "none"}
+        Last refresh attempt: {lastRefreshAttempt ?? "not yet"}
+        <br />
+        Last successful refresh: {lastSuccessfulRefresh ?? "not yet"}
+        <br />
+        Next scheduled refresh: {nextScheduledRefresh ?? "pending"}
+        <br />
+        Latest error: {lastRefreshError ?? "none"}
         <br />
         Current: {currentId}
         <br />
