@@ -237,7 +237,8 @@ export function ChannelPlayer({ fallback }: { fallback: SignalBundle }) {
 
     window.addEventListener("online", onOnline);
     document.addEventListener("visibilitychange", onVisibilityChange);
-    void refresh("startup");
+    // Let a development Strict Mode cleanup cancel its setup before fetching.
+    queueMicrotask(() => void refresh("startup"));
     return () => {
       active = false;
       if (timer !== null) window.clearTimeout(timer);
