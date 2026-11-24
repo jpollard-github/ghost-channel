@@ -241,6 +241,7 @@ for (const failure of [
 }
 
 test("player controls and keyboard work", async ({ page }) => {
+  await page.clock.install({ time: new Date(now) });
   await mock(page);
   await page.goto("/");
   await expect(
